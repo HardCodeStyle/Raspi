@@ -7,6 +7,7 @@ public class StartRun {
         List<String> hours = putList();
         Run run = new Run();
         run.setDoRun(true);
+        run.setRaspiGoOn(true);
         run.run(hours);
     }
 

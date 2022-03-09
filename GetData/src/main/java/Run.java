@@ -14,7 +14,12 @@ public class Run {
     }
 
     public void setCountFalseTime(int countFalseTime) {
-        this.countFalseTime = countFalseTime + 1;
+        if (countFalseTime == 0) {
+            this.countFalseTime = 0;
+        } else {
+            this.countFalseTime = countFalseTime + 1;
+        }
+
     }
 
     public boolean isDoneDownload() {
@@ -33,36 +38,52 @@ public class Run {
         this.doRun = doRun;
     }
 
+    public boolean isRaspiGoOn() {
+        return raspiGoOn;
+    }
+
+    public void setRaspiGoOn(boolean raspiGoOn) {
+        this.raspiGoOn = raspiGoOn;
+    }
+
     public void run(List<String> hours) {
         SimpleDateFormat formatter = new SimpleDateFormat("HH");
         Date date = new Date();
+        while (isRaspiGoOn()) {
+            setCountFalseTime(0);
+            setDoRun(true);
+            System.out.println("Hallo 3");
+            if (hours.contains(formatter.format(date))) {
+                while (getDoRun()) {
+                    if (hours.contains(formatter.format(date)) && !isDoneDownload()) {
+                        System.out.println("Hallo 2");
+                        setDoneDownload(true);
+                        try {
+                            Thread.sleep(1800000);
+                            setDoneDownload(false);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            Thread.sleep(1800000);
+                            setCountFalseTime(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
-        while (getDoRun()) {
-
-            if (getCountFalseTime() >= 3) {
-                setDoRun(false);
-                break;
-            }
-
-            System.out.println("Hallo 1");
-            if (hours.contains(formatter.format(date)) && !isDoneDownload()) {
-                System.out.println("Hallo 2");
-                setDoneDownload(true);
-                try {
-                    Thread.sleep(1800000);
-                    setDoneDownload(false);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    }
+                    if (getCountFalseTime() >= 3) {
+                        setDoRun(false);
+                    }
                 }
             } else {
                 try {
-                    Thread.sleep(1800000);
-                    setCountFalseTime(1);
+                    Thread.sleep(3600000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-
         }
     }
 }
