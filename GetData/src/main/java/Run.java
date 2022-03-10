@@ -46,24 +46,40 @@ public class Run {
         this.raspiGoOn = raspiGoOn;
     }
 
-    public void run(List<String> hours) {
+    public void run(List<String> hours, String[] stocks) {
         SimpleDateFormat formatter = new SimpleDateFormat("HH");
-        Date date = new Date();
+        SimpleDateFormat formatter2 = new SimpleDateFormat("HH:mm:ss");
+        DownloadData dataDownload = new DownloadData();
+        DownloadCutString downloadCutString = new DownloadCutString();
+
         while (isRaspiGoOn()) {
+            Date date = new Date();
             setCountFalseTime(0);
             setDoRun(true);
             System.out.println("Hallo 3");
+
             if (hours.contains(formatter.format(date))) {
                 while (getDoRun()) {
-                    if (hours.contains(formatter.format(date)) && !isDoneDownload()) {
-                        System.out.println("Hallo 2");
+                    Date date1 = new Date();
+                    if (hours.contains(formatter.format(date1)) && !isDoneDownload()) {
+
+                        boolean stateDownload = dataDownload.download(stocks);
+
+                        if (stateDownload) {
+                            System.out.println("Download was Successful ...");
+                        } else {
+                            System.out.println("Download failed ...");
+                        }
+
                         setDoneDownload(true);
                         try {
                             Thread.sleep(1800000);
                             setDoneDownload(false);
+                            downloadCutString.read_Price_From_Download(stocks);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+
                     } else {
                         try {
                             Thread.sleep(1800000);
