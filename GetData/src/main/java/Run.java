@@ -48,7 +48,6 @@ public class Run {
 
     public void run(List<String> hours, String[] stocks) {
         SimpleDateFormat formatter = new SimpleDateFormat("HH");
-        SimpleDateFormat formatter2 = new SimpleDateFormat("HH:mm:ss");
         DownloadData dataDownload = new DownloadData();
         DownloadCutString downloadCutString = new DownloadCutString();
 
@@ -67,6 +66,7 @@ public class Run {
 
                         if (stateDownload) {
                             System.out.println("Download was Successful ...");
+                            downloadCutString.read_Price_From_Download(stocks);
                         } else {
                             System.out.println("Download failed ...");
                         }
@@ -75,7 +75,6 @@ public class Run {
                         try {
                             Thread.sleep(1800000);
                             setDoneDownload(false);
-                            downloadCutString.read_Price_From_Download(stocks);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

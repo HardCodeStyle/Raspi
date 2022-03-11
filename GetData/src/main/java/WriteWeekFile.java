@@ -9,23 +9,19 @@ import java.util.List;
 
 public class WriteWeekFile {
     public void SaveWeeklyPrices(List<String> price, String[] stock) {
-
         PrintWriter out = null;
-        Date date = new Date();
-        String dateString = String.valueOf(date.getTime());
-        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
         Date date1 = new Date();
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(date1);
         int week = cal.get(Calendar.WEEK_OF_YEAR);
+        int x = 0;
         for (String fileName : stock) {
-            SimpleDateFormat df2 = new SimpleDateFormat("yyyyMMdd HH:mm");
+            SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd===HH:mm");
             Date date2 = new Date();
-            int x = 0;
             try {
-                out = new PrintWriter(new BufferedWriter(new FileWriter("GetData/src/SavedPrices/SavedPriceWeekly_" + fileName + "_KW_" + week + ".txt", true)));
-                out.println(price.get(x) + "===" + df2.format(date2) + "===" + dateString);
+                out = new PrintWriter(new BufferedWriter(new FileWriter("GetData/src/SavedPrices/SavedPriceWeekly_" + x + "_KW_" + week + ".txt", true)));
+                out.println(price.get(x) + "===" + df2.format(date2));
+                x++;
             } catch (IOException e) {
                 System.err.println(e);
             } finally {
@@ -33,7 +29,7 @@ public class WriteWeekFile {
                     out.close();
                 }
             }
-            x++;
+
         }
 
     }
