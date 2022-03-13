@@ -56,11 +56,18 @@ public class Run {
             setCountFalseTime(0);
             setDoRun(true);
             System.out.println("Hallo 3");
-
-            if (hours.contains(formatter.format(date))) {
+            if (date.getDay() == 0 || date.getDay() == 6) {
+                try {
+                    Thread.sleep(3600000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else if (hours.contains(formatter.format(date))) {
                 while (getDoRun()) {
                     Date date1 = new Date();
-                    if (hours.contains(formatter.format(date1)) && !isDoneDownload()) {
+                    if (date1.getDay() == 0 || date1.getDay() == 6) {
+                        setDoRun(false);
+                    } else if (hours.contains(formatter.format(date1)) && !isDoneDownload()) {
 
                         boolean stateDownload = dataDownload.download(stocks);
 
@@ -73,7 +80,7 @@ public class Run {
 
                         setDoneDownload(true);
                         try {
-                            Thread.sleep(1800000);
+                            Thread.sleep(300000);
                             setDoneDownload(false);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -81,7 +88,7 @@ public class Run {
 
                     } else {
                         try {
-                            Thread.sleep(1800000);
+                            Thread.sleep(300000);
                             setCountFalseTime(1);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -91,6 +98,7 @@ public class Run {
                     if (getCountFalseTime() >= 3) {
                         setDoRun(false);
                     }
+
                 }
             } else {
                 try {

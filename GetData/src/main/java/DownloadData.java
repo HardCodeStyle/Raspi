@@ -14,22 +14,20 @@ public class DownloadData {
 
                 // Create URL object
                 URL url = new URL(webpage);
-                BufferedReader readr =
-                        new BufferedReader(new InputStreamReader(url.openStream()));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
                 Date date = new Date();
                 String dateString = String.valueOf(date.getTime());
                 // Enter filename in which you want to download
-                BufferedWriter writer =
-                        new BufferedWriter(new FileWriter("GetData/src/DownLoadFiles/Download_" + i + "_" + dateString + "_" + ".txt"));
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("GetData/src/DownLoadFiles/Download_" + i + "_" + dateString + "_" + ".txt"));
 
                 // read each line from stream till end
                 String line;
-                while ((line = readr.readLine()) != null) {
-                    writer.write(line);
+                while ((line = bufferedReader.readLine()) != null) {
+                    bufferedWriter.write(line);
                 }
 
-                readr.close();
-                writer.close();
+                bufferedReader.close();
+                bufferedWriter.close();
 
             }
             // Exceptions

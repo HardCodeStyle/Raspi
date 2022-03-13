@@ -9,7 +9,7 @@ public class DownloadCutString {
     String[] fileNames;
     boolean state = true;
 
-    public boolean read_Price_From_Download(String[] stocks) {
+    public void read_Price_From_Download(String[] stocks) {
         getFileNames();
         WriteWeekFile writePriceFile = new WriteWeekFile();
         List<String> pricesToSave = new ArrayList<>();
@@ -19,26 +19,25 @@ public class DownloadCutString {
             pricesToSave.add(String.valueOf(price));
         }
         writePriceFile.SaveWeeklyPrices(pricesToSave, stocks);
-        return state;
     }
 
     private void getFileNames() {
-        File f = new File("GetData/src/DownLoadFiles");
-        fileNames = f.list();
+        File file = new File("GetData/src/DownLoadFiles");
+        fileNames = file.list();
     }
 
     private Double cut_Price_From_String(String lineOfPriceGoogle) {
-        String[] result = lineOfPriceGoogle.split("data-last-price");
-        String[] result1 = result[1].split(" ");
-        String test = result1[0].replace("=", "");
-        test = test.replace("\"", "");
-        return Double.parseDouble(test);
+        String[] resultFirstSplit = lineOfPriceGoogle.split("data-last-price");
+        String[] resultSecondSplit = resultFirstSplit[1].split(" ");
+        String splitPrice = resultSecondSplit[0].replace("=", "");
+        splitPrice = splitPrice.replace("\"", "");
+        return Double.parseDouble(splitPrice);
     }
 
     public String read_Line_Of_Price_From_Download(String fileName) {
         String lineOfPriceGoogle = "";
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            for (String line; (line = br.readLine()) != null; ) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
+            for (String line; (line = bufferedReader.readLine()) != null; ) {
                 if (line.contains("data-last-price")) {
                     lineOfPriceGoogle = line;
                 }

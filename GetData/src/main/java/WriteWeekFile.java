@@ -18,8 +18,9 @@ public class WriteWeekFile {
         for (String fileName : stock) {
             SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd===HH:mm");
             Date date2 = new Date();
+            fileName=fileName.replace(":","_");
             try {
-                out = new PrintWriter(new BufferedWriter(new FileWriter("GetData/src/SavedPrices/SavedPriceWeekly_" + x + "_KW_" + week + ".txt", true)));
+                out = new PrintWriter(new BufferedWriter(new FileWriter("GetData/src/SavedPrices/SavedPriceWeekly_" + fileName + "_KW_" + week + ".txt", true)));
                 out.println(price.get(x) + "===" + df2.format(date2));
                 x++;
             } catch (IOException e) {
